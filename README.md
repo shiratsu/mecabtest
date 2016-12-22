@@ -1,0 +1,2 @@
+# mecabtest
+mecabの実験

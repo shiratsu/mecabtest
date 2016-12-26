@@ -57,3 +57,6 @@ id[TAB]word_utf8[TAB]document frequency[NEWLINE]
 １ニュースに複数のリンクがある
 それは、Aという内容のニュースにクラスタリングされている
 同じ話題の記事をクラスタリングしている
+
+## 参考
+* http://qiita.com/yasunori/items/31a23eb259482e4824e2

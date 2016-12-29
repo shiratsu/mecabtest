@@ -33,6 +33,7 @@ def get_words_main(content):
 
 # 辞書を作成する
 def make_dic(words):
+    print(words)
     dictionary = corpora.Dictionary(words)
     print(str(dictionary.token2id).decode('string-escape'))
     print(str(dictionary).decode('string-escape'))

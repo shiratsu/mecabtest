@@ -3,11 +3,14 @@ import os # osモジュールのインポート
 import MeCab
 import re
 from gensim import corpora,matutils
+from sklearn.ensemble import RandomForestClassifier
 mecab = MeCab.Tagger('mecabrc')
 aryWord = []
+aryDense = []
 
 def bowTest():
     global aryWord
+    global aryDense
     files = os.listdir('./bowtestfolder')
     aryWord = []
     for file in files:
@@ -20,6 +23,7 @@ def bowTest():
 
         dense = list(matutils.corpus2dense([vec], num_terms=len(dictionary)).T[0])
         print(dense)
+        aryDense.append(dense)
 
 
 
@@ -61,9 +65,24 @@ def get_words_main(content):
     for token in tokenize(content):
         aryWord.append(token)
 
+def train():
+    # 正解のラベル
+    label_train = [1,0]  # 1: ITライフハック、 0: 独女通信
+
+    estimator = RandomForestClassifier()
+    # 学習させる
+    estimator.fit(aryDense, label_train)
+
+    # 予測
+    label_predict = estimator.predict(aryDense)
+    print(label_predict)
+
 
 
 # 2記事の一部だけ取り出しました
 # 1つめがITライフハック、2つめが独女通信の記事です。
 if __name__ == '__main__':
     bowTest()
+
+    ## 訓練して試す
+    train()

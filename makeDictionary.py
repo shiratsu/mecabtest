@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 import os # osモジュールのインポート
 import MeCab
+import re
 from gensim import corpora
 mecab = MeCab.Tagger('mecabrc')
 aryWord = []
 aryGroup = []
+lineNum = 1
 
 def readFile():
     global aryWord
     global aryGroup
+    global lineNum
     files = os.listdir('./dictionaryData')
     aryWord = []
     for file in files:
@@ -32,8 +35,16 @@ def get_words(strFile):
     '''
     記事群のdictについて、形態素解析してリストにして返す
     '''
+    lineNum = 1
+    p = re.compile(r"https?://[\w/:%#\$&\?\(\)~\.=\+\-]+")
+
     for line in open('./dictionaryData/'+strFile, 'r'):
-        get_words_main(line)
+
+        # print(p.match(line))
+        if lineNum != 1 and lineNum != 2 and p.search(line) is None:
+            print(line)
+            get_words_main(line)
+        lineNum+=1
         # aryWord.append(get_words_main(line))
     aryWord.append(aryGroup)
 

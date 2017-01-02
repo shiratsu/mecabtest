@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import os # osモジュールのインポート
 import MeCab
-from gensim import corpora
+import re
+from gensim import corpora,matutils
 mecab = MeCab.Tagger('mecabrc')
 aryWord = []
 
@@ -11,12 +12,16 @@ def bowTest():
     aryWord = []
     for file in files:
         get_words(file)
+        print(str(aryWord).decode('string-escape'))
+        # BoW
+        dictionary = corpora.Dictionary.load_from_text('livedor_dokujo.txt')
+        vec = dictionary.doc2bow(aryWord)
+        print(vec)
 
-    print(str(aryWord).decode('string-escape'))
-    # BoW
-    dictionary = corpora.Dictionary.load_from_text('livedor_dokujo.txt')
-    vec = dictionary.doc2bow(aryWord)
-    print(vec)
+        dense = list(matutils.corpus2dense([vec], num_terms=len(dictionary)).T[0])
+        print(dense)
+
+
 
 def tokenize(text):
     '''
@@ -33,8 +38,19 @@ def get_words(strFile):
     '''
     記事群のdictについて、形態素解析してリストにして返す
     '''
+
+    '''
+    記事群のdictについて、形態素解析してリストにして返す
+    '''
+    lineNum = 1
+    p = re.compile(r"https?://[\w/:%#\$&\?\(\)~\.=\+\-]+")
+
     for line in open('./bowtestfolder/'+strFile, 'r'):
-        get_words_main(line)
+        # print(p.match(line))
+        if lineNum != 1 and lineNum != 2 and p.search(line) is None:
+            # print(line)
+            get_words_main(line)
+        lineNum+=1
         # aryWord.append(get_words_main(line))
 
 

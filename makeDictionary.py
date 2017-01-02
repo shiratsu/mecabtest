@@ -42,7 +42,7 @@ def get_words(strFile):
 
         # print(p.match(line))
         if lineNum != 1 and lineNum != 2 and p.search(line) is None:
-            print(line)
+            # print(line)
             get_words_main(line)
         lineNum+=1
         # aryWord.append(get_words_main(line))
@@ -61,6 +61,7 @@ def get_words_main(content):
 def make_dic(words):
     dictionary = corpora.Dictionary(words)
     print(str(dictionary.token2id).decode('string-escape'))
+    print('--------------------------------')
     print(str(dictionary).decode('string-escape'))
     dictionary.save_as_text('livedor_dokujo.txt')
 

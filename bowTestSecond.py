@@ -77,6 +77,7 @@ def train():
     label_predict = estimator.predict(aryDense)
     print(label_predict)
 
+def test():
 
 
 # 2記事の一部だけ取り出しました

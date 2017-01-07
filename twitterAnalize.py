@@ -2,8 +2,13 @@
 import MySQLdb
 import MeCab
 import numpy as np
-import re
+import re, pprint
 from sklearn.feature_extraction.text import TfidfVectorizer
+
+def pp(obj):
+  pp = pprint.PrettyPrinter(indent=4, width=160)
+  str = pp.pformat(obj)
+  return re.sub(r"\\u([0-9a-f]{4})", lambda x: unichr(int("0x"+x.group(1), 16)), str)
 
 ### MySQL 上の Tweet データ取得用関数
 def fetch_target_day_n_random_tweets(target_day, n = 2000):
@@ -37,7 +42,7 @@ def split_text_only_noun(text):
 
     p = re.compile(r"https?://[\w/:%#\$&\?\(\)~\.=\+\-]+")
     if p.search(text_str):
-        print("url is finded.")
+        # print("url is finded.")
         return ''
 
     node = tagger.parseToNode(text_str)
@@ -46,7 +51,7 @@ def split_text_only_noun(text):
     while node:
         pos0 = node.feature.split(",")[0]
         pos1 = node.feature.split(",")[1]
-        print(node.feature)
+        # print(node.feature)
         if pos0 == "名詞" and pos1 == "一般":
             # unicode 型に戻す
             word = node.surface.decode("utf-8")
@@ -92,6 +97,10 @@ if __name__ == '__main__':
         each_nouns = [split_text_only_noun(txt) for txt in txts]
         all_nouns = " ".join(each_nouns)
         target_day_nouns.append(all_nouns)
+
+    print str(target_day_nouns).decode('string-escape')
+    print("-------------")
+    print(pp(target_day_nouns))
 
     # TF-IDF 計算
     # (合計6日以上出現した単語は除外)

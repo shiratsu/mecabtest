@@ -10,7 +10,11 @@ def tokenize(text):
     '''
     node = mecab.parseToNode(text)
     while node:
-        if node.feature.split(',')[0] == '名詞':
+
+        pos0 = node.feature.split(",")[0]
+        pos1 = node.feature.split(",")[1]
+
+        if pos0 == "名詞" and pos1 == "一般":
             yield node.surface.lower()
         node = node.next
 

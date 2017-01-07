@@ -44,9 +44,10 @@ def split_text_only_noun(text):
 
     words = []
     while node:
-        pos = node.feature.split(",")[0]
-
-        if pos == "名詞":
+        pos0 = node.feature.split(",")[0]
+        pos1 = node.feature.split(",")[1]
+        print(node.feature)
+        if pos0 == "名詞" and pos1 == "一般":
             # unicode 型に戻す
             word = node.surface.decode("utf-8")
             if word != 'https':
@@ -68,6 +69,13 @@ if __name__ == '__main__':
 
     ### メイン処理
     docs_count = 2000 # 取得 Tweet 数
+    # target_days = [
+    #     "2017-01-04",
+    #     "2017-01-05",
+    #     "2017-01-06",
+    #     "2017-01-07",
+    # ]
+
     target_days = [
         "2017-01-04",
         "2017-01-05",

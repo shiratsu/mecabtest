@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import MeCab
 from gensim import corpora
+from sklearn.feature_extraction.text import TfidfVectorizer
 mecab = MeCab.Tagger('mecabrc')
 
 
@@ -25,7 +26,9 @@ def get_words(contents):
     '''
     ret = []
     for k, content in contents.items():
-        ret.append(get_words_main(content))
+        words = get_words_main(content)
+        all_nouns = " ".join(words)
+        ret.append(all_nouns)
     return ret
 
 
@@ -48,10 +51,3 @@ def make_dic(words):
 # 1つめがITライフハック、2つめが独女通信の記事です。
 if __name__ == '__main__':
     words = get_words({'it-life-hack-001.txt': 'アナタはまだブラウザのブックマーク？　ブックマーク管理はライフリストがオススメ 最近ネットサーフィンをする際にもっぱら利用しているのが「ライフリスト」というサイトだ。この「ライフリスト」は、ひとことで言うと自分専用のブックマークサイトである。というよりブラウザのスタートページにするとブラウザのブックマーク管理が不要になる便利なサイトなのである。', 'dokujo-tsushin-001.txt': 'たとえば、馴れ馴れしく近づいてくるチャラ男、クールを装って迫ってくるエロエロ既婚男性etc…に対し「下心、見え見え〜」と思ったことはないだろうか？ “下心”と一言で言うと、特に男性が女性のからだを目的に執拗に口説くなど、イヤらしい言葉に聞こえてしまう。実際、辞書で「下心」の意味を調べてみると、心の底で考えていること。かねて心に期すること、かねてのたくらみ。特に、わるだくみ。（広辞苑より）という意味があるのだから仕方がないのかもしれない。'})
-    print(str(words).decode('string-escape'))
-    print(type(str(words).decode('string-escape')))
-    make_dic(words)
-    # print(words[0][0].decode('utf-8'))
-    # for aryVal in words:
-    #     for val in aryVal:
-    #         print(val.decode('utf-8'))

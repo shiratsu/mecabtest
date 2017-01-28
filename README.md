@@ -58,5 +58,9 @@ id[TAB]word_utf8[TAB]document frequency[NEWLINE]
 それは、Aという内容のニュースにクラスタリングされている
 同じ話題の記事をクラスタリングしている
 
+## コーパス
+ ＝ *.mmファイル(Matrix Marketファイル)
+dictionaryを元にして、解析したい文章を変換したもの。コーパスを見れば、解析したい文章にどの単語が何回出現するのかが分かります。
+
 ## 参考
 * http://qiita.com/yasunori/items/31a23eb259482e4824e2
